@@ -74,19 +74,19 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setNumberOfHours(timeInHours);
         reservation.setSpot(spot);
         reservation.setUser(userRepository3.findById(userId).get());
-        reservation.setPayment(new Payment());
+        //reservation.setPayment(new Payment());
 
-        Reservation savedReservation=reservationRepository3.save(reservation);
+        //Reservation savedReservation=reservationRepository3.save(reservation);
 
-        spot.getReservationList().add(savedReservation);
+        spot.getReservationList().add(reservation);
         spotRepository3.save(spot);
 
         User user=userRepository3.findById(userId).get();
-        user.getReservationList().add(savedReservation);
+        user.getReservationList().add(reservation);
         userRepository3.save(user);
 
 
 
-        return savedReservation;
+        return reservation;
     }
 }

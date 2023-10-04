@@ -58,6 +58,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     @Override
     public void deleteSpot(int spotId) {
         Optional<Spot>isSpot=spotRepository1.findById(spotId);
+        if(isSpot.isEmpty())
+            return;
 
         Spot spot=isSpot.get();
 

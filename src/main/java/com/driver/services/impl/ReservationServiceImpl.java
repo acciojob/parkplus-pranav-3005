@@ -55,8 +55,10 @@ public class ReservationServiceImpl implements ReservationService {
                 }
             }
         }
-        if(spot==null)
+        if(spot==null || spot.getOccupied())
             throw new Exception("Cannot make reservation");
+
+        spot.setOccupied(true);
 
         Reservation reservation=new Reservation();
         reservation.setNumberOfHours(timeInHours);
@@ -64,6 +66,17 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setUser(userRepository3.findById(userId).get());
         reservation.setPayment(new Payment());
 
-        return reservationRepository3.save(reservation);
+        Reservation savedReservation=reservationRepository3.save(reservation);
+
+        spot.getReservationList().add(savedReservation);
+        spotRepository3.save(spot);
+
+        User user=userRepository3.findById(userId).get();
+        user.getReservationList().add(savedReservation);
+        userRepository3.save(user);
+
+
+
+        return savedReservation;
     }
 }
